@@ -55,12 +55,20 @@ const RESTAURANT = {
 const express = require("express");
 const app = express();
 
-app.get("/home", (req, res) => {
+app.get("/", (req, res) => {
   res.render("home-page.ejs", { myRestaurant: RESTAURANT });
 });
 
 app.get("/menu", (req, res) => {
   res.render("menu-page.ejs", { myMenu: RESTAURANT.menu });
+});
+
+app.get("/menu/:category", (req, res) => {
+  const category = req.params.category.toLowerCase();
+  const menuItems = RESTAURANT.menu.filter(
+    (item) => item.category === category
+  );
+  res.render("category-page.ejs", { menuItems, category });
 });
 
 app.listen(3000);
